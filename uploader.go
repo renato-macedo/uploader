@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	osFs    = afero.NewOsFs()
+	osFs    = afero.NewOsFs() // afero is not needed
 	isValid = func(info os.FileInfo) bool {
 		return info.Size() < 1000000
 	}
@@ -21,10 +21,8 @@ var (
 	METHOD = http.MethodPost
 )
 
-// UploadFolder files
+// UploadFolder ...
 func UploadFolder(URL, fieldname, dirname string) (*http.Response, error) {
-	// dirname = filepath.Base(dirname)
-	// log.Println(dirname)
 
 	// Creates a buffer to the body
 	body := &bytes.Buffer{}
@@ -43,6 +41,7 @@ func UploadFolder(URL, fieldname, dirname string) (*http.Response, error) {
 	return res, err
 }
 
+// walk will create a FormFile for each file in the folder
 func walk(fieldname string, w *multipart.Writer) filepath.WalkFunc {
 	return func(path string, info os.FileInfo, err error) error {
 		log.Println(path)
